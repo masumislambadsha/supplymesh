@@ -240,10 +240,10 @@ All paths are relative to `/api/v1`. "Any member" means any authenticated active
 | GET | `/permissions` | The global permission catalog (§6) | `role.read` | Platform-owned, read-only |
 | GET | `/roles` | System and custom roles | `role.read` | |
 | GET | `/roles/{id}` | Role with its permission codes | `role.read` | |
-| POST | `/roles` | Create a custom role | `role.manage` | `key` unique per org; `is_system = false` |
-| PATCH | `/roles/{id}` | Rename / describe | `role.manage` | |
+| POST | `/roles` | Create a custom role (Release 1.1; the MVP ships the five system roles) | `role.manage` | `key` unique per org; `is_system = false` |
+| PATCH | `/roles/{id}` | Rename / describe (Release 1.1) | `role.manage` | |
 | PUT | `/roles/{id}/permissions` | Replace the role's permission set | `role.manage` | Escalation guards (§6.3). The Owner role always keeps `role.manage` and `role.assign`. All holders' permission caches are deleted. |
-| DELETE | `/roles/{id}` | Delete a custom role | `role.manage` | System roles → `409`; roles still assigned or used by an approval step template → `409` |
+| DELETE | `/roles/{id}` | Delete a custom role (Release 1.1) | `role.manage` | System roles → `409`; roles still assigned or used by an approval step template → `409` |
 | GET | `/members/{id}/roles` | A member's role assignments | `member.read` | |
 | POST | `/members/{id}/roles` | Assign a role with optional `scope_department_id` and `approval_limit_amount` | `role.assign` | `uq_member_role_scope` blocks duplicates (`409`). A member can't change their own roles (`403 segregation_of_duties`). |
 | PATCH | `/members/{id}/roles/{member_role_id}` | Change scope or approval limit | `role.assign` | Limit is in the org's base currency |
@@ -483,7 +483,7 @@ Codes are rows of the platform-owned `permissions` table (`code`, `module`). The
 Endpoints marked "Any member" (own notifications, `/me`, reference data such as departments and categories, own sessions) need no catalog permission.
 
 ### 6.2 How the Owner and segregation of duties fit together
-- **The Owner holds every permission except the transaction-execution set:** `purchase_order.create/update/issue/cancel/close`, `goods_receipt.create`, `invoice.create/match/approve/reject/void`, `invoice.resolve_discrepancy`, `payment.record`, `payment.manage`. The person who controls the rules should not also move goods and money (Feature Specification §2.2). A small organization can grant these to the Owner role explicitly; the grant is audited and every Owner is notified.
+- **The Owner holds every permission except the transaction-execution set:** `purchase_order.create/update/issue/cancel/close`, `goods_receipt.create`, `invoice.create/match/approve/reject/void`, `invoice.resolve_discrepancy`, `payment.record`, `payment.manage`. The person who controls the rules should not also move goods and money (Feature Specification §2.2). A small organization can grant these to the Owner role explicitly; the grant is audited and every Owner is notified. Because a member can only grant permissions they hold themselves (§6.3), granting them to the Owner role needs a platform-level override that this design does not yet specify. This is listed as a known limitation in the Risk document.
 - **Permissions are necessary, never sufficient.** Segregation-of-duties checks run in the domain service after the permission guard and apply to **everyone, the Owner included**:
 
 | Rule | Enforced by | Error |

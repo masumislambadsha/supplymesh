@@ -62,7 +62,7 @@ A decision (`POST /approval-steps/{id}/decisions`) locks the step row, checks pe
 2. **References stay valid.** The FK from `approval_step_templates.approver_role_id` to `roles` means a role used by a policy cannot be deleted; with JSON (b) this fails silently on the next submission.
 3. **In-flight requests are stable and auditable.** The request points to its version and rule; published versions never change, so the answer to "why did this need three approvals?" is a JOIN.
 4. **The inbox stays one query.** `idx_steps_pending_member` and `idx_steps_pending_role` serve "my approvals" directly, which an external engine (d) would split across two systems.
-5. **The SLA job is cheap.** The `approvals` queue scans `idx_steps_overdue` every 15 minutes.
+5. **The SLA job is cheap.** The `approvals` queue scans `idx_steps_overdue` every 15 minutes. The job is built from the start; reminders and escalation are switched on in Release 1.1.
 
 ## Advantages
 

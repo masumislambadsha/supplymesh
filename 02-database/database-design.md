@@ -30,7 +30,7 @@ The 35 tables fall into 9 groups (`audit_logs` also has monthly partitions):
 | Supplier intelligence | `supplier_performance_records` |
 | Cross-cutting | `audit_logs` (partitioned), `notifications`, `outbox_events` |
 
-The brief requires 16 entities. The schema adds 19 supporting tables (memberships, sessions, invitations, role links, sequences, categories, workflow versions, rules and step templates, line-item and decision tables, comments, notifications). Five of them change the business design:
+The brief requires 16 entities. The schema adds 19 supporting tables (memberships, sessions, invitations, role links, sequences, categories, workflow versions, rules and step templates, line-item and decision tables, comments, notifications). Four of them change the business design:
 
 - **`goods_receipts` / `goods_receipt_items`.** Without a record of what was physically delivered, an invoice can only be compared with the PO (two-way match). Finance needs to know the goods actually arrived before paying (three-way match), and on-time delivery for supplier intelligence is calculated from receipt dates.
 - **`invoice_discrepancies`.** "Review invoice discrepancies" is a required feature. A discrepancy has its own lifecycle (open → accepted / rejected / resolved), its own resolver and its own note, so it gets its own table instead of a flag on the invoice.
@@ -401,7 +401,7 @@ Conventions used in every table (not repeated below): `id UUID PK`, `organizatio
 
 **`permissions`** is a global catalog owned by the platform. `code` is UNIQUE, e.g. `supplier.verify`, `purchase_request.approve`, `invoice.approve`, `payment.record`. It is not tenant data, because the code checks these exact strings.
 
-**`roles`** are per organization: `key` is UNIQUE per org and `is_system` is a boolean. The five roles from the brief are created for each new org as `is_system = true` (they can't be deleted, but their permissions can be adjusted). Organizations can add custom roles.
+**`roles`** are per organization: `key` is UNIQUE per org and `is_system` is a boolean. The five roles from the brief are created for each new org as `is_system = true` (they can't be deleted, but their permissions can be adjusted). The schema already supports custom roles; they arrive in Release 1.1.
 
 **`role_permissions`.** PK (`role_id`, `permission_id`). A many-to-many link.
 

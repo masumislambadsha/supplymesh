@@ -317,7 +317,7 @@ A dedicated **worker** container runs BullMQ consumers on Redis ([ADR-008](../05
 | `outbox-relay` | Move committed `outbox_events` into the right queue | every 1 s | `SELECT … FOR UPDATE SKIP LOCKED LIMIT 100`, so several workers can run safely |
 | `notifications` | In-app + email delivery | events | Idempotent per event id |
 | `documents` | Virus scan; nightly document-expiry check → risk flags | event / cron 02:00 | Uses `idx_supplier_docs_expiry` |
-| `approvals` | SLA reminders and escalation | every 15 min | Uses `idx_steps_overdue` |
+| `approvals` | SLA reminders and escalation | every 15 min | Uses `idx_steps_overdue`. The job and the SLA fields are built from the start; reminders and escalation are switched on in Release 1.1 |
 | `purchasing` | Render PO PDF, email supplier | `purchase_order.issued` | |
 | `intelligence` | Recompute `supplier_performance_records` + `risk_level` | nightly + on `invoice.matched` / receipt events (debounced) | Idempotent upsert per (supplier, month) |
 | `analytics` | `REFRESH MATERIALIZED VIEW CONCURRENTLY` | hourly | Off the request path |

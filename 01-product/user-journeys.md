@@ -110,7 +110,7 @@ flowchart TD
     P3d -->|"reject + comment"| S8
     P2d -->|"return: get 2nd quote"| A9
     A9 --> S1
-    S4 -.->|"no action within SLA"| E1["Reminder, then<br/>escalate to Owner"]
+    S4 -.->|"no action within SLA (Release 1.1)"| E1["Reminder, then<br/>escalate to Owner"]
 ```
 
 ```mermaid
@@ -133,7 +133,7 @@ journey
 - **The approval chain is shown at submission.** "Who has it now?" is the requester's biggest frustration today (score 1). Because the steps are created up front, the UI can draw the whole route immediately.
 - **"Return" differs from "reject".** Most real "no"s are "not like this" (e.g. get a second quote). Returning keeps the request and its history; rejecting ends it.
 - **Karim's $2,000 limit doesn't block this request.** His step is an endorsement, and final authority comes from the Finance step. The limit (BR-09) only matters when a manager would be the **last** approver. For example, under rule 1 (< $500, department manager only), a newly promoted manager with a $300 limit couldn't finalize a $450 request on their own, so the engine would add the parent department's manager.
-- **The SLA reminder/escalation** prevents the classic bottleneck: an approver on leave holds up a request for weeks.
+- **The SLA reminder/escalation** (switched on in Release 1.1; the SLA fields and job are built from the start) prevents the classic bottleneck: an approver on leave holds up a request for weeks.
 
 ---
 

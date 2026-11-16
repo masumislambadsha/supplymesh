@@ -107,7 +107,7 @@ flowchart LR
 ## Consequences / follow-ups
 
 - Secrets come from AWS SSM Parameter Store or Secrets Manager at container start; nothing secret in images or the repository.
-- Logs shipped to CloudWatch; uptime checks on `/api/v1/health`; alerts on queue failures and RDS metrics.
+- Logs shipped to CloudWatch; uptime checks on `/health/live`; alerts on queue failures and RDS metrics.
 - A restore drill from RDS PITR each quarter.
 - **Growth stage:** ECS Fargate behind an ALB, ElastiCache Redis, RDS read replica for analytics, CloudFront for static assets, PgBouncer.
 - **Revisit when:** host CPU stays above ~70% during month-end peaks, a customer contract requires 99.9% availability, or `api` needs more than one replica; any of these triggers the move to ECS.

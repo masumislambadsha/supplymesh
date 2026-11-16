@@ -36,7 +36,7 @@ Each arrow is a business rule (§5). Each box has a single owner role. Every tra
 | Finance Officer | Make sure only correct, received, approved invoices are paid | 5–15 |
 | Employee | Get what they need to do their job, with minimal friction | everyone |
 
-Roles are **additive**: a Department Manager is also an Employee. Roles can be **scoped** to a department and can carry an **approval limit** (`member_roles.scope_department_id`, `member_roles.approval_limit_amount`). Organizations can create custom roles from the permission catalog.
+Roles are **additive**: a Department Manager is also an Employee. Roles can be **scoped** to a department and can carry an **approval limit** (`member_roles.scope_department_id`, `member_roles.approval_limit_amount`). Organizations can create custom roles from the permission catalog (from Release 1.1; the MVP ships the five system roles, whose permissions can be adjusted).
 
 ### 2.2 Capability matrix
 ✅ = allowed · 🔸 = allowed within scope (own department / own records / within limit) · — = not allowed
@@ -153,7 +153,7 @@ Feature IDs are referenced from the MoSCoW matrix (§9) and the dependency graph
 |---|---|---|
 | PLT-01 | Organization sign-up and tenant provisioning | "Multiple organizations" |
 | PLT-02 | Members, invitations, departments | Every role needs these |
-| PLT-03 | RBAC with custom roles, department scope, approval limits | "Configure roles and permissions", "approve within assigned limits" |
+| PLT-03 | RBAC with system roles (custom roles in Release 1.1), department scope, approval limits | "Configure roles and permissions", "approve within assigned limits" |
 | PLT-04 | Authentication (password + MFA) | Financial system |
 | PLT-05 | Audit log | "Procurement transparency" |
 | PLT-06 | Notifications (in-app + email) | Approvals depend on people being told |

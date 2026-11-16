@@ -46,7 +46,7 @@ Use **BullMQ on Redis**, consumed by a dedicated **`worker` container** built fr
 | `outbox-relay` | Publish `outbox_events` to the queues below | Every 1 s |
 | `notifications` | SES email + `notifications` rows | Outbox events |
 | `documents` | `documents.scan` (ClamAV); nightly expiry check → risk flag | Upload confirmation; nightly |
-| `approvals` | SLA escalation using `idx_steps_overdue` | Repeatable, every 15 min |
+| `approvals` | SLA escalation using `idx_steps_overdue` | Repeatable, every 15 min (built from the start; reminders switched on in Release 1.1) |
 | `intelligence` | Recompute `supplier_performance_records` and supplier `risk_level` | Nightly, one job per organization |
 | `analytics` | Refresh materialized views | Hourly |
 | `maintenance` | Create next `audit_logs` partition; purge expired sessions | Monthly / daily |
